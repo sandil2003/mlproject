@@ -48,16 +48,12 @@ The Student Exam Performance Predictor is a machine learning web application bui
 - 📚 **Educational Resources** - Comprehensive "Learn More" page
 - 🎯 **User-Friendly** - Intuitive form with validation
 
-## 🎬 Demo
-
-**Live Demo:** [Add your deployed link here]
 
 ### Quick Preview
 
 ```bash
 # Clone and run locally
-git clone https://github.com/yourusername/student-performance-predictor.git
-cd student-performance-predictor
+git clone https://github.com/sandil2003/mlproject.git
 pip install -r requirements.txt
 python app.py
 ```
@@ -98,8 +94,8 @@ Visit `http://localhost:5000` to see the app in action!
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/student-performance-predictor.git
-cd student-performance-predictor
+git clone https://github.com/sandil2003/mlproject.git
+cd mlproject
 ```
 
 2. **Create a virtual environment**
@@ -175,25 +171,18 @@ student-performance-predictor/
 │   ├── home.html              # Prediction form
 │   └── learnmore.html         # Learn more page
 │
-├── static/                     # Static files
-│   ├── css/
-│   │   └── style.css          # Custom styles
-│   ├── js/
-│   │   └── script.js          # JavaScript files
-│   └── images/
-│       └── screenshots/       # App screenshots
+├── images/                     # Static files
 │
-├── models/                     # ML models
+├── artifacts/                     # ML models
 │   ├── model.pkl              # Trained model
-│   └── preprocessor.pkl       # Data preprocessor
+│   ├── preprocessor.pkl       # Data preprocessor
+│   ├── test.csv               # Test data
+│   ├── train.csv              # Train data
+│   └── data.csv               # All the data 
 │
 ├── notebooks/                  # Jupyter notebooks
 │   ├── EDA.ipynb              # Exploratory Data Analysis
 │   └── Model_Training.ipynb   # Model training process
-│
-├── data/                       # Dataset
-│   ├── raw/                   # Raw data
-│   └── processed/             # Processed data
 │
 └── src/                        # Source code
     ├── components/
@@ -309,22 +298,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+- **Your Name** - *Initial work* - [YourGitHub](https://github.com/sandil2003)
 
 ## 🙏 Acknowledgments
 
-- Dataset provided by [Source]
+- Dataset provided by Kaggle
 - Inspired by educational data science research
 - Flask and Scikit-learn communities
 - Contributors and supporters
 
 ## 📧 Contact
 
-**Project Link:** [https://github.com/yourusername/student-performance-predictor](https://github.com/yourusername/student-performance-predictor)
+**Project Link:** [https://github.com/sandil2003/mlproject](https://github.com/sandil2003/mlproject)
 
-**Email:** your.email@example.com
-
-**LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
+**Email:** sandilperera2003@gmail.com
 
 ---
 
