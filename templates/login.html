@@ -111,6 +111,24 @@
             z-index: 10;
             animation: slideIn 0.8s ease-out;
         }
+        
+        .login-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .login-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .login-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        
+        .login-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
 
         @keyframes slideIn {
             from {
