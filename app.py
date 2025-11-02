@@ -1,5 +1,4 @@
 import pickle
-import json
 import os
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 from functools import wraps
@@ -7,6 +6,7 @@ from authlib.integrations.flask_client import OAuth
 import numpy as np
 import pandas as pd
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
+from database import init_db, create_user, authenticate_user, get_user_by_username, get_user_by_email
 
 from sklearn.preprocessing import StandardScaler
 
@@ -14,6 +14,9 @@ application = Flask(__name__)
 
 app = application
 app.secret_key = 'your-secret-key-change-in-production'
+
+# Initialize database
+init_db()
 
 # Google OAuth Configuration
 oauth = OAuth(app)
@@ -24,22 +27,6 @@ google = oauth.register(
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={'scope': 'openid email profile'}
 )
-
-# User storage file
-USERS_FILE = 'users.json'
-
-# Initialize users file if it doesn't exist
-if not os.path.exists(USERS_FILE):
-    with open(USERS_FILE, 'w') as f:
-        json.dump({'admin': {'password': 'admin123', 'email': 'admin@example.com'}}, f)
-
-def load_users():
-    with open(USERS_FILE, 'r') as f:
-        return json.load(f)
-
-def save_users(users):
-    with open(USERS_FILE, 'w') as f:
-        json.dump(users, f, indent=4)
 
 def login_required(f):
     @wraps(f)
@@ -59,11 +46,6 @@ def signup():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         
-        users = load_users()
-        
-        if username in users:
-            return render_template('signup.html', error='Username already exists')
-        
         if len(username) < 3:
             return render_template('signup.html', error='Username must be at least 3 characters long')
         
@@ -73,13 +55,12 @@ def signup():
         if password != confirm_password:
             return render_template('signup.html', error='Passwords do not match')
         
-        users[username] = {
-            'password': password,
-            'email': email
-        }
-        save_users(users)
+        success, result = create_user(username, email, password)
         
-        return render_template('signup.html', success='Account created successfully! Please login.')
+        if success:
+            return render_template('signup.html', success='Account created successfully! Please login.')
+        else:
+            return render_template('signup.html', error=result)
     
     return render_template('signup.html')
 
@@ -89,12 +70,13 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         
-        users = load_users()
+        success, user = authenticate_user(username, password)
         
-        if username in users and users[username]['password'] == password:
+        if success:
             session['logged_in'] = True
-            session['username'] = username
-            session['email'] = users[username]['email']
+            session['username'] = user['username']
+            session['email'] = user['email']
+            session['user_id'] = user['id']
             return redirect(url_for('index'))
         else:
             return render_template('login.html', error='Invalid username or password')
@@ -112,19 +94,22 @@ def google_callback():
     user_info = token.get('userinfo')
     
     if user_info:
-        session['logged_in'] = True
-        session['username'] = user_info.get('email').split('@')[0]
-        session['email'] = user_info.get('email')
-        session['google_user'] = True
+        email = user_info.get('email')
+        username = email.split('@')[0]
         
-        users = load_users()
-        if session['username'] not in users:
-            users[session['username']] = {
-                'email': user_info.get('email'),
-                'password': None,
-                'google_auth': True
-            }
-            save_users(users)
+        user = get_user_by_email(email)
+        
+        if not user:
+            user = get_user_by_username(username)
+            if not user:
+                create_user(username, email, None, google_auth=True)
+                user = get_user_by_username(username)
+        
+        session['logged_in'] = True
+        session['username'] = username
+        session['email'] = email
+        session['user_id'] = user['id']
+        session['google_user'] = True
         
         return redirect(url_for('index'))
     
