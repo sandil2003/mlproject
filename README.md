@@ -315,28 +315,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🔮 Future Enhancements
-
-- [ ] Add more ML models (XGBoost, Neural Networks)
-- [ ] Implement model comparison dashboard
-- [ ] Add data visualization charts
-- [ ] Create REST API for external integrations
-- [ ] Add user authentication
-- [ ] Implement prediction history
-- [ ] Support for multiple subjects
-- [ ] Mobile application
-- [ ] Docker containerization
-- [ ] Cloud deployment (AWS/Azure/GCP)
-
-## 📊 Project Stats
-
-![GitHub Stars](https://img.shields.io/github/stars/yourusername/student-performance-predictor?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/yourusername/student-performance-predictor?style=social)
-![GitHub Issues](https://img.shields.io/github/issues/yourusername/student-performance-predictor)
-![GitHub Pull Requests](https://img.shields.io/github/issues-pr/yourusername/student-performance-predictor)
-
----
-
 ⭐ **If you found this project helpful, please consider giving it a star!** ⭐
-
-Made with ❤️ by [Your Name]
